@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
+
 from surveys import satisfaction_survey
 
 app = Flask(__name__)
@@ -12,20 +13,32 @@ debug = DebugToolbarExtension(app)
 def view_survey():
 
     
-    return render_template('survey-intro.html', survey_title=satisfaction_survey.title,survey_instructions=satisfaction_survey.instructions)
+    return render_template(
+        'survey-intro.html',
+        survey_title=satisfaction_survey.title,
+        survey_instructions=satisfaction_survey.instructions)
 
 @app.route("/question/<int:question_num>", methods=["POST"])
 def view_question(question_num):
 
+    # if question_num == 0:
+    #     session['answers'] = []
+    # elif question_num >= len(satisfaction_survey.questions):
+    #     return redirect('/thanks')
+    # else:
+    #     answers = session['answers']
+    #     answers.append(request.form.get("answer_input"))
+    #     session['answers'] = answers
+
+    if question_num >= len(satisfaction_survey.questions):
+         return redirect('/thanks')
+
     if question_num == 0:
         session['answers'] = []
-    elif question_num >= len(satisfaction_survey.questions):
-        return redirect('/thanks')
     else:
         answers = session['answers']
         answers.append(request.form.get("answer_input"))
         session['answers'] = answers
-
 
     next_question = question_num + 1
 
