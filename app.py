@@ -29,4 +29,5 @@ def view_question(question_num):
     else:
         session['answers'] = []
 
+
     return render_template('question.html', next_question = next_question, the_question=the_question, question_choices = question_choices )
