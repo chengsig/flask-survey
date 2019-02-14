@@ -3,7 +3,11 @@
 {% block content %}
     <h1>{{ the_question }}</h1>
     <form action="/question/{{ next_question }}" method="POST">
-        <input type="text" name="answer_input">
+        <select name="answer_input">
+            {% for choice in question_choices %}
+                <option value="{{ choice }}">{{ choice }}</option>
+            {% endfor %}
+        </select>
         <button>Submit</button>
     </form>
 {% endblock %}

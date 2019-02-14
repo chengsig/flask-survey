@@ -17,7 +17,10 @@ def view_survey():
 @app.route("/question/<int:question_num>", methods=["POST"])
 def view_question(question_num):
     next_question = question_num + 1
-    the_question = satisfaction_survey.questions[question_num].question_num
+
+    the_question = satisfaction_survey.questions[question_num].question
+
+    question_choices = satisfaction_survey.questions[question_num].choices
 
     if question_num > 0:
         answers = session['answers']
@@ -26,4 +29,4 @@ def view_question(question_num):
     else:
         session['answers'] = []
 
-    return render_template('question.html', next_question = next_question, the_question=the_question )
+    return render_template('question.html', next_question = next_question, the_question=the_question, question_choices = question_choices )
